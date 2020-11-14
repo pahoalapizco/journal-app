@@ -1,6 +1,7 @@
 import React from 'react';
 import { 
   BrowserRouter as Router,
+  Redirect,
   Route,
   Switch
 } from 'react-router-dom';
@@ -12,17 +13,21 @@ import { JournalScreen } from './../components/journal/JournalScreen';
 export const AppRouter = () => {
   return (
     <Router>
-      <Switch>
-        <Route 
-          path="/auth"
-          component={ AuthRouter }
-        />
+      <div>
+        <Switch>
+          <Route 
+            path="/auth"
+            component={ AuthRouter }
+          />
 
-        <Route 
-          exac path="/"
-          component={ JournalScreen }
-        />
-      </Switch>
+          <Route 
+            exac path="/"
+            component={ JournalScreen }
+          />
+
+          <Redirect to="/auth/login" />
+        </Switch>
+      </div>
     </Router>
   );
 }
