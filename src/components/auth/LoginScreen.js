@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // Hooks
 import { useForm } from '../../hooks/useForm';
-import { login } from './../../actions/auth';
+import { login, setLogin } from './../../actions/auth';
 
 export const LoginScreen = () => {
   const [values, handleInputChange ] = useForm({
@@ -18,7 +18,7 @@ export const LoginScreen = () => {
 
   const handleLogin = e => {
     e.preventDefault();
-    dispatch( login(123, 'paho') );
+    dispatch( setLogin(name, password) );
   }
 
   return (
