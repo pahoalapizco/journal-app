@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // Hooks
 import { useForm } from '../../hooks/useForm';
-import { login, setLogin, startGoogleLogin } from './../../actions/auth';
+import { setLogin, startGoogleLogin } from './../../actions/auth';
 
 export const LoginScreen = () => {
   const [values, handleInputChange ] = useForm({
