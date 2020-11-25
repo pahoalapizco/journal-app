@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import validator from 'validator';
 import { useForm } from '../../hooks/useForm';
+import { setError, removeError } from '../../actions/ui';
+import { ErrorMessage } from '../errors/ErrorMessage';
 
 export const RegisterScreen = () => {
-  const [errorValue, setError] = useState(false);
-
+  const dispatch = useDispatch();
+  
+  // Obtenemos el state de Redux!
+  const { msgError } = useSelector( state => state.ui );
+  
   const [formValues, handleInputChange ] = useForm({
     name: 'Paho Alapizco',
     email: 'paho@paho.com',
     password: '123456',
-    confirmPassword: '123456'
+    confirmPassword: '123456x'
   });
 
   const { 
@@ -24,26 +30,25 @@ export const RegisterScreen = () => {
     e.preventDefault();
     
     if (isFormValid()) {
-      setError(false);
       console.log('Fomulario corecto!');
-    } else {
-      setError(true);
     }
   }
 
   const isFormValid = () => {
     if(name.trim().length === 0) {
-      console.log('Name is required');
+      dispatch( setError ('Name is required') );
       return false;
     }
     if(!validator.isEmail(email)) {
-      console.log('Email is not valid');
+      dispatch( setError('Email is not valid') );
       return false;
     }
     if(password !== confirmPassword || password.length < 6) {
-      console.log('Password should match an be at leat 6 characteres');
+      dispatch( setError('Password should match an be at leat 6 characteres') );
       return false;
     }
+
+    dispatch( removeError() );
     return true;
   }
 
@@ -52,12 +57,9 @@ export const RegisterScreen = () => {
       <h3 className="auth__title mb-5"> 
         Register 
       </h3>
+
       {
-        errorValue && (
-          <div className="auth__alert-error"> 
-            Hola Error :( 
-          </div>
-        )
+        msgError && (<ErrorMessage message={ msgError } />)
       }
       
       <form onSubmit={ handleRegister }>
