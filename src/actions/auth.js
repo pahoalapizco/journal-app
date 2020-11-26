@@ -1,14 +1,25 @@
 import { firebase, googleAuthProvider } from '../firebase/firebaseConfig';
 import { types } from './../types/types';
+import { uiStartLoading, uiFinishLoading } from './ui';
 
 export const setLogin = (email, pass) => {
   return dispatch => {
+    dispatch( uiStartLoading() ); // Marca el loading en true
+
     firebase.auth()
       .signInWithEmailAndPassword(email, pass)
       .then(({ user }) => {
         dispatch( login(user.uid, user.displayName) );
+
+        setTimeout(() => {
+          dispatch( uiFinishLoading() ); // Marca el loading en false
+        }, 1500);
+        
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error)
+        dispatch( uiFinishLoading() ); // Marca el loading en false
+      });
     }
 }
 
@@ -32,6 +43,7 @@ export const startRegisterWithEmailPassName = ( email, pass, name) => {
       .catch(error => console.log(error));
   }
 }
+
 export const login = (uid, displayName) => ({
   type: types.login,
   payload: {
