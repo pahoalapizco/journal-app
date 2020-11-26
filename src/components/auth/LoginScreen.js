@@ -3,22 +3,22 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // Hooks
-import { useForm } from '../../hooks/useForm';
+import { useForm,  } from '../../hooks/useForm';
 import { setLogin, startGoogleLogin } from './../../actions/auth';
 
 export const LoginScreen = () => {
   const [values, handleInputChange ] = useForm({
-    name: 'paho@paho.com',
+    email: 'paho@paho.com',
     password: '123456'
   });
 
   const dispatch = useDispatch();
   
-  const { name, password } = values;
+  const { email, password } = values;
 
   const handleLogin = e => {
     e.preventDefault();
-    dispatch( setLogin(name, password) );
+    dispatch( setLogin(email, password) );
   }
 
   const handleGoogleLogin = () => {
@@ -38,7 +38,7 @@ export const LoginScreen = () => {
           name="email"
           autoComplete="off"
           className="auth__input"
-          value={ name }
+          value={ email }
           onChange={ handleInputChange }
         />
         <input 
