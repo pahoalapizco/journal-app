@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { firebase, googleAuthProvider } from '../firebase/firebaseConfig';
 import { types } from './../types/types';
 import { uiStartLoading, uiFinishLoading } from './ui';
@@ -19,6 +20,12 @@ export const setLogin = (email, pass) => {
       .catch(error => {
         console.log(error)
         dispatch( uiFinishLoading() ); // Marca el loading en false
+        Swal.fire({
+          title: 'Error',
+          text: error.message,
+          icon: 'error',
+          confirmButtonText: 'Try again'
+        });
       });
     }
 }
