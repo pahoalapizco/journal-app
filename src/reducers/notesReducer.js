@@ -1,4 +1,4 @@
-
+import { types } from './../types/types';
 
 /*
   {
@@ -23,6 +23,10 @@ export const notesReducer = (state = initialState, actions) => {
   const { type, payload } = actions;
 
   switch (type) {
+    case types.notesAdd: 
+      return {
+        
+      }
     default:
       return state;
   }
