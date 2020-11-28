@@ -47,7 +47,14 @@ export const startRegisterWithEmailPassName = ( email, pass, name) => {
         await user.updateProfile({ displayName: name });
         dispatch(login(user.uid, user.displayName));
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        Swal.fire({
+          title: 'Error',
+          text: error.message,
+          icon: 'error',
+          confirmButtonText: 'Try again'
+        });
+      });
   }
 }
 
