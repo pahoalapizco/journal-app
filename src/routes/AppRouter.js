@@ -12,6 +12,7 @@ import { AuthRouter } from './AuthRouter';
 import { JournalScreen } from './../components/journal/JournalScreen';
 import { firebase } from '../firebase/firebaseConfig';
 import { login } from '../actions/auth';
+import { startLoadingNotes } from './../actions/notes';
 
 export const AppRouter = () => {
   const [ checking, setChecking ] = useState(true);
@@ -21,9 +22,11 @@ export const AppRouter = () => {
   
   useEffect(() => {
     firebase.auth()
-      .onAuthStateChanged( user => {
+      .onAuthStateChanged( async user => {
         if( user?.uid ) {
           dispatch( login(user.uid, user.displayName) );
+          dispatch( startLoadingNotes(user.uid) );
+
           setLogged(true);
         } else {
           setLogged(false);
