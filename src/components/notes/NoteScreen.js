@@ -1,29 +1,55 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { NotesAppBar } from './NotesAppBar';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+import { useForm } from './../../hooks/useForm';
 
 export const NoteScreen = () => {
+  const { active: note } = useSelector(state => state.notes);
+  const [formValues, handleInputChange, reset] = useForm(note);
+  const { title, body, imgURL, date } = formValues;
+
+  const activeId = useRef( note.id );
+  const day = moment(date).format('MMMM Do YYYY');
+  
+  useEffect(() => {
+    if(activeId.current !== note.id){
+      reset(note);
+      activeId.current = note.id;
+    }
+  }, [note, reset]);
+
   return (
     <div  className="notes__main-content">
-      <NotesAppBar />
+      <NotesAppBar date={ day } />
 
       <div className="notes__content">
         <input 
           type="text"
           placeholder="Title"
+          name="title"
           className="notes__title-input"
-          autoComplete="off"          
+          autoComplete="off"
+          value={ title }
+          onChange={ handleInputChange }       
         />
 
         <textarea
           placeholder="Write something you want :)"
+          name="body"
           className="notes__textarea"
+          value={ body }
+          onChange={ handleInputChange }
         >         
         </textarea>
         <div className="notes__image">
-          <img 
-            src="https://i.pinimg.com/originals/7b/f9/d5/7bf9d59941b52934e6b9e5a9a3ddd839.jpg"
-            alt="example"
-          />
+          {
+            imgURL &&
+            <img 
+              src={`${imgURL}`}
+              alt="example"
+            />
+          }
         </div>
       </div>
     </div>

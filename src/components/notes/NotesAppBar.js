@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const NotesAppBar = () => {
+export const NotesAppBar = ({ date }) => {
   return (
     <div className="notes__appbar">
-      <span> 17 de Noviembre de 2020 </span>
+      <span> { date } </span>
       <div>
         <button className="btn btn-primary">
           Picture
